@@ -51,6 +51,7 @@ model VerificationToken {
 
 // this bit, you can add fields to. don't remove anything
 model User {
+  // required stuff
   id            String    @id @default(uuid()) @map("_id")
   name          String?
   email         String?   @unique
@@ -58,4 +59,13 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+
+  // custom fields
+  role Role    @default(MEMBER)
+  osis String?
+}
+
+enum Role {
+  EXEC
+  MEMBER
 }

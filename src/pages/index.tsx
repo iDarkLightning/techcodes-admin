@@ -1,6 +1,5 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Container } from "@chakra-ui/react";
 import React from "react";
-import { Container } from "../components/Container";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 const Index = () => {
@@ -8,7 +7,11 @@ const Index = () => {
 
   return (
     <Container>
-      <Button onClick={() => (!session ? signIn("google") : signOut())}>
+      <Button
+        onClick={() =>
+          !session ? signIn("google", { callbackUrl: "/auth/osis" }) : signOut()
+        }
+      >
         {session ? "Sign Out" : "Sign In"}
       </Button>
     </Container>
