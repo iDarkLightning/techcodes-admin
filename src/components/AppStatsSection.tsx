@@ -25,6 +25,12 @@ interface AppSquareProps {
     wide?: boolean;
     to?: string;
 }
+interface StatsSquareProps {
+    color: string;
+    name: string;
+    children: any;
+    wide?: boolean;
+}
 
 const AppSquare: React.FC<AppSquareProps> = ({
     color,
@@ -60,6 +66,53 @@ const AppSquare: React.FC<AppSquareProps> = ({
                     </Text>
                 </Flex>
             </Link>
+        </GridItem>
+    );
+};
+
+const StatsSquare: React.FC<StatsSquareProps> = ({
+    color,
+    name,
+    children,
+    wide = false,
+}) => {
+    return (
+        <GridItem colSpan={wide ? 2 : 1}>
+            <Flex
+                width="100%"
+                height="100%"
+                borderRadius="30px"
+                background={`gradient.${color}`}
+                flexDirection="column"
+                alignItems="flex-start"
+                justifyContent="center"
+                padding="15px"
+            >
+                <Text
+                    fontWeight="bolder"
+                    color="bg"
+                    fontSize={
+                        wide
+                            ? { base: "2rem", lg: "3rem" }
+                            : { base: "1rem", lg: "2rem" }
+                    }
+                    textAlign="left"
+                    width="90%"
+                    textTransform="uppercase"
+                >
+                    {name}
+                </Text>
+                <Text
+                    fontWeight="bolder"
+                    color="bg"
+                    fontSize={{ base: "4rem", lg: "6rem" }}
+                    textAlign="left"
+                    width="90%"
+                    textTransform="uppercase"
+                >
+                    {children}
+                </Text>
+            </Flex>
         </GridItem>
     );
 };
@@ -115,19 +168,31 @@ const AppStatsSection: React.FC<AppSectionProps> = ({ user, student }) => {
                 height="85%"
                 width="100%"
             >
-                <AppSquare color="red" wide={student}>
-                    Points Tracker
-                </AppSquare>
-                <AppSquare
-                    color={student ? "green" : "purple"}
-                    to="https://admin.techcodes.org/editor"
-                >
-                    Dato CMS
-                </AppSquare>
-                <AppSquare color={student ? "purple" : "yellow"}>
-                    Attendance
-                </AppSquare>
-                {!student && <AppSquare color="green">Email Maker</AppSquare>}
+                {student ? (
+                    <>
+                        <StatsSquare color="red" wide name="points">
+                            4200
+                        </StatsSquare>
+                        <StatsSquare color="green" name="credits">
+                            6
+                        </StatsSquare>
+                        <StatsSquare color="purple" name="present">
+                            9
+                        </StatsSquare>
+                    </>
+                ) : (
+                    <>
+                        <AppSquare color="red">Points Tracker</AppSquare>
+                        <AppSquare
+                            color="purple"
+                            to="https://admin.techcodes.org/editor"
+                        >
+                            Dato CMS
+                        </AppSquare>
+                        <AppSquare color="yellow">Attendance</AppSquare>
+                        <AppSquare color="green">Email Maker</AppSquare>
+                    </>
+                )}
             </Grid>
         </Flex>
     );

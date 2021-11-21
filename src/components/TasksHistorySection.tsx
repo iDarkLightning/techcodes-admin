@@ -14,7 +14,6 @@ import {
 import React from "react";
 import { UserPageProps } from "../types/UserProp";
 import { Sidebar } from "./Sidebar";
-import AppSection from "./AppSection";
 import { BsBarChartLine } from "react-icons/bs";
 
 interface TaskSectionProps {
