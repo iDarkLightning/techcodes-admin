@@ -36,7 +36,7 @@ const TaskEventSquare: React.FC<TaskSquareProps> = ({
 }) => {
     return (
         <Flex
-            width="90%"
+            width="100%"
             borderRadius="10px"
             alignItems="center"
             justifyContent="space-between"
@@ -48,7 +48,7 @@ const TaskEventSquare: React.FC<TaskSquareProps> = ({
                 <Text
                     fontWeight="600"
                     color="accent.900"
-                    fontSize={{ base: "0.9rem", lg: "1.4rem" }}
+                    fontSize={{ base: "0.9rem", md: "1rem", xl: "1.4rem" }}
                     textAlign="left"
                 >
                     {title}
@@ -74,10 +74,10 @@ const TaskEventSquare: React.FC<TaskSquareProps> = ({
             ) : (
                 <Text
                     fontWeight="500"
-                    fontSize="0.6rem"
+                    fontSize={{ base: "0.65rem", md: "0.7rem", xl: "0.8rem" }}
                     textAlign="right"
-                    lineHeight="40px"
-                    borderRadius="20px"
+                    lineHeight="30px"
+                    borderRadius="12px"
                     color="bg"
                     backgroundColor="accent.900"
                     padding="0px 12px"
@@ -89,22 +89,22 @@ const TaskEventSquare: React.FC<TaskSquareProps> = ({
     );
 };
 
-const TasksSection: React.FC<TaskSectionProps> = ({ student }) => {
+const TasksHistorySection: React.FC<TaskSectionProps> = ({ student }) => {
     return (
         <Flex
             background="rgba(255, 255, 255, 0.8)"
             marginTop={{ base: "10vh", md: "0" }}
             width={{ base: "90vw", md: "35vw" }}
-            height={{ base: "fit-content", md: "100%" }}
+            height={{ base: "550px", md: "100%" }}
             filter="drop-shadow(2px 4px 1px rgba(0, 0, 0, 0.25))"
             borderRadius="30px"
-            padding="35px"
+            padding="20px 48px"
             flexDirection="column"
             justifyContent="space-evenly"
         >
             <Text
                 color="accent.900"
-                fontSize="0.9rem"
+                fontSize={{ base: "1.2rem", xl: "1.6rem" }}
                 textAlign="left"
                 width="100%"
             >
@@ -148,10 +148,10 @@ const TasksSection: React.FC<TaskSectionProps> = ({ student }) => {
             >
                 <Text
                     fontWeight="500"
-                    fontSize={{ base: "0.6rem", lg: "1rem" }}
+                    fontSize={{ base: "0.8rem", lg: "1rem" }}
                     textAlign="center"
-                    lineHeight="40px"
-                    borderRadius="10px"
+                    lineHeight="30px"
+                    borderRadius="12px"
                     color="bg"
                     backgroundColor="accent.900"
                     padding="0px 8px"
@@ -164,4 +164,4 @@ const TasksSection: React.FC<TaskSectionProps> = ({ student }) => {
     );
 };
 
-export default TasksSection;
+export default TasksHistorySection;

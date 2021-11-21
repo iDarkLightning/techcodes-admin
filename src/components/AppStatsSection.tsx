@@ -53,12 +53,12 @@ const AppSquare: React.FC<AppSquareProps> = ({
                     <Image
                         src={"/graph.svg"}
                         alt={"random"}
-                        height={{ base: "30%", lg: "50%" }}
+                        height={{ base: "40%", lg: "50%" }}
                     />
                     <Text
                         fontWeight="600"
                         color="accent.900"
-                        fontSize={{ base: "0.9rem", lg: "1.4rem" }}
+                        fontSize="1.2rem"
                         textAlign="center"
                         width="90%"
                     >
@@ -91,11 +91,7 @@ const StatsSquare: React.FC<StatsSquareProps> = ({
                 <Text
                     fontWeight="bolder"
                     color="bg"
-                    fontSize={
-                        wide
-                            ? { base: "2rem", lg: "3rem" }
-                            : { base: "1rem", lg: "2rem" }
-                    }
+                    fontSize={wide ? { base: "2rem", lg: "3rem" } : "2rem"}
                     textAlign="left"
                     width="90%"
                     textTransform="uppercase"
@@ -131,7 +127,7 @@ const AppStatsSection: React.FC<AppSectionProps> = ({ user, student }) => {
             <Flex
                 alignItems="center"
                 justifyContent="space-between"
-                width={{ base: "90%", md: "100%" }}
+                width={{ base: "85%", md: "100%" }}
                 height="10%"
                 marginBottom="5%"
             >

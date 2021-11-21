@@ -27,7 +27,7 @@ const Dashboard: React.FC<UserPageProps> = ({ user }) => {
                 height={{ base: "fit-content", md: "85vh" }}
                 width="100%"
                 justifyContent="space-evenly"
-                margin={{ base: "calc(10vh + 4rem) 0 5vh", md: "10vh 0 5vh" }}
+                margin={{ base: "calc(10vh + 2rem) 0 5vh", md: "10vh 0 5vh" }}
                 flexDirection={{ base: "column", md: "row" }}
                 alignItems="center"
             >
