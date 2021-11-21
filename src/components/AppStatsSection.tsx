@@ -9,75 +9,68 @@ import {
     Stack,
     Text,
     Image,
+    Link,
 } from "@chakra-ui/react";
 import React from "react";
 import { UserPageProps } from "../types/UserProp";
 import { Sidebar } from "./Sidebar";
 import { BsBarChartLine } from "react-icons/bs";
 
-interface StatsSectionProps extends UserPageProps {}
-interface StatsSquareProps {
+interface AppSectionProps extends UserPageProps {
+    student?: boolean;
+}
+interface AppSquareProps {
     color: string;
-    name: string;
     children: any;
     wide?: boolean;
+    to?: string;
 }
 
-const StatsSquare: React.FC<StatsSquareProps> = ({
+const AppSquare: React.FC<AppSquareProps> = ({
     color,
-    name,
     children,
     wide = false,
+    to = "",
 }) => {
     return (
         <GridItem colSpan={wide ? 2 : 1}>
-            <Flex
-                width="100%"
-                height="100%"
-                borderRadius="30px"
-                background={`gradient.${color}`}
-                flexDirection="column"
-                alignItems="flex-start"
-                justifyContent="center"
-                padding="15px"
-            >
-                <Text
-                    fontWeight="bolder"
-                    color="bg"
-                    fontSize={
-                        wide
-                            ? { base: "2rem", lg: "3rem" }
-                            : { base: "1rem", lg: "2rem" }
-                    }
-                    textAlign="left"
-                    width="90%"
-                    textTransform="uppercase"
+            <Link href={to} isExternal _focus={{ outline: "0 !important" }}>
+                <Flex
+                    height="100%"
+                    width="100%"
+                    borderRadius="30px"
+                    background={`gradient.${color}`}
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="space-around"
                 >
-                    {name}
-                </Text>
-                <Text
-                    fontWeight="bolder"
-                    color="bg"
-                    fontSize={{ base: "4rem", lg: "6rem" }}
-                    textAlign="left"
-                    width="90%"
-                    textTransform="uppercase"
-                >
-                    {children}
-                </Text>
-            </Flex>
+                    <Image
+                        src={"/graph.svg"}
+                        alt={"random"}
+                        height={{ base: "30%", lg: "50%" }}
+                    />
+                    <Text
+                        fontWeight="600"
+                        color="accent.900"
+                        fontSize={{ base: "0.9rem", lg: "1.4rem" }}
+                        textAlign="center"
+                        width="90%"
+                    >
+                        {children}
+                    </Text>
+                </Flex>
+            </Link>
         </GridItem>
     );
 };
 
-const StatsSection: React.FC<StatsSectionProps> = ({ user }) => {
+const AppStatsSection: React.FC<AppSectionProps> = ({ user, student }) => {
     const fname = user.name.split(" ")[0];
     const src = user.image;
     return (
         <Flex
             flexDirection="column"
             width="32vw"
-            marginRight="6vw"
             height="100%"
             justifyContent="space-between"
         >
@@ -103,7 +96,7 @@ const StatsSection: React.FC<StatsSectionProps> = ({ user }) => {
                         fontSize="1rem"
                         lineHeight="2rem"
                     >
-                        Stats
+                        {student ? "Stats" : "Apps"}
                     </Text>
                 </Flex>
                 <Box
@@ -122,18 +115,22 @@ const StatsSection: React.FC<StatsSectionProps> = ({ user }) => {
                 height="85%"
                 width="100%"
             >
-                <StatsSquare color="red" wide name="points">
-                    4200
-                </StatsSquare>
-                <StatsSquare color="green" name="credits">
-                    6
-                </StatsSquare>
-                <StatsSquare color="purple" name="present">
-                    9
-                </StatsSquare>
+                <AppSquare color="red" wide={student}>
+                    Points Tracker
+                </AppSquare>
+                <AppSquare
+                    color={student ? "green" : "purple"}
+                    to="https://admin.techcodes.org/editor"
+                >
+                    Dato CMS
+                </AppSquare>
+                <AppSquare color={student ? "purple" : "yellow"}>
+                    Attendance
+                </AppSquare>
+                {!student && <AppSquare color="green">Email Maker</AppSquare>}
             </Grid>
         </Flex>
     );
 };
 
-export default StatsSection;
+export default AppStatsSection;

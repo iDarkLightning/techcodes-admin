@@ -17,14 +17,24 @@ import { Sidebar } from "./Sidebar";
 import AppSection from "./AppSection";
 import { BsBarChartLine } from "react-icons/bs";
 
-interface HistorySectionProps {}
-interface EventSquareProps {
+interface TaskSectionProps {
+    student?: boolean;
+}
+interface TaskSquareProps {
     title: string;
     date: string;
-    points: number;
+    student: boolean;
+    board?: string;
+    points?: number;
 }
 
-const EventSquare: React.FC<EventSquareProps> = ({ title, date, points }) => {
+const TaskEventSquare: React.FC<TaskSquareProps> = ({
+    title,
+    date,
+    student = false,
+    board = "",
+    points = -1,
+}) => {
     return (
         <Flex
             width="90%"
@@ -52,23 +62,37 @@ const EventSquare: React.FC<EventSquareProps> = ({ title, date, points }) => {
                     {date}
                 </Text>
             </Flex>
-            <Text
-                fontWeight="bolder"
-                fontSize={{ base: "1rem", lg: "2rem" }}
-                textAlign="right"
-                color="accent.900"
-            >
-                +{points}
-            </Text>
+            {student ? (
+                <Text
+                    fontWeight="bolder"
+                    fontSize={{ base: "1rem", lg: "2rem" }}
+                    textAlign="right"
+                    color="accent.900"
+                >
+                    +{points}
+                </Text>
+            ) : (
+                <Text
+                    fontWeight="500"
+                    fontSize={{ base: "0.6rem", lg: "1rem" }}
+                    textAlign="right"
+                    lineHeight="40px"
+                    borderRadius="20px"
+                    color="bg"
+                    backgroundColor="accent.900"
+                    padding="0px 12px"
+                >
+                    {board}
+                </Text>
+            )}
         </Flex>
     );
 };
 
-const HistorySection: React.FC<HistorySectionProps> = ({}) => {
+const TasksSection: React.FC<TaskSectionProps> = ({ student }) => {
     return (
         <Flex
-            backgroundColor="white"
-            background="linear-gradient(179.38deg, #FFFFFF, rgba(255, 255, 255, 0) 275%)"
+            background="rgba(255, 255, 255, 0.8)"
             width="35vw"
             height="100%"
             filter="drop-shadow(2px 4px 1px rgba(0, 0, 0, 0.25))"
@@ -83,7 +107,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({}) => {
                 textAlign="left"
                 width="100%"
             >
-                Your point history
+                Your {student ? "point history" : "upcoming tasks"}
             </Text>
             <Flex
                 flexDirection="column"
@@ -91,20 +115,26 @@ const HistorySection: React.FC<HistorySectionProps> = ({}) => {
                 height="70%"
                 justifyContent="space-between"
             >
-                <EventSquare
-                    title="Existing"
+                <TaskEventSquare
+                    title="Admin Site"
                     date="June 9th, 1969"
-                    points={420}
+                    student={student}
+                    board="Programming"
+                    points={100}
                 />
-                <EventSquare
-                    title="Existing"
+                <TaskEventSquare
+                    title="WTF is event #4"
                     date="June 9th, 1969"
-                    points={420}
+                    student={student}
+                    board="Events"
+                    points={100}
                 />
-                <EventSquare
-                    title="Existing"
+                <TaskEventSquare
+                    title="Height Issue"
                     date="June 9th, 1969"
-                    points={420}
+                    student={student}
+                    board="Marketing"
+                    points={100}
                 />
             </Flex>
             <Link
@@ -126,11 +156,11 @@ const HistorySection: React.FC<HistorySectionProps> = ({}) => {
                     padding="0px 8px"
                     width="fit-content"
                 >
-                    Spreadsheet
+                    {student ? "Spreadsheet" : "Trello"}
                 </Text>
             </Link>
         </Flex>
     );
 };
 
-export default HistorySection;
+export default TasksSection;
