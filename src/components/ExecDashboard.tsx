@@ -22,7 +22,12 @@ const ExecDashboard: React.FC<ExecDashboardProps> = ({ user }) => {
   return (
     <Flex backgroundColor="bg">
       <Sidebar />
-      <Flex height="665px" justifyContent="space-evenly">
+      <Flex
+        height="85vh"
+        width="100%"
+        justifyContent="space-evenly"
+        margin="10vh 0 5vh"
+      >
         <AppSection user={user} />
         <TasksSection />
       </Flex>

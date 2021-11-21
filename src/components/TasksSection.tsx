@@ -77,7 +77,6 @@ const TasksSection: React.FC<TaskSectionProps> = ({}) => {
             height="100%"
             filter="drop-shadow(2px 4px 1px rgba(0, 0, 0, 0.25))"
             borderRadius="30px"
-            marginTop="10vh"
             padding="35px"
             flexDirection="column"
             justifyContent="space-evenly"
