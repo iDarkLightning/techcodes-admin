@@ -42,6 +42,7 @@ const TaskEventSquare: React.FC<TaskSquareProps> = ({
             justifyContent="space-between"
             border="1px solid rgba(32, 29, 29, 0.37)"
             padding="25px 15px"
+            margin="5px"
         >
             <Flex flexDirection="column" alignItems="flex-start">
                 <Text
@@ -64,7 +65,7 @@ const TaskEventSquare: React.FC<TaskSquareProps> = ({
             {student ? (
                 <Text
                     fontWeight="bolder"
-                    fontSize={{ base: "1rem", lg: "2rem" }}
+                    fontSize="1rem"
                     textAlign="right"
                     color="accent.900"
                 >
@@ -73,7 +74,7 @@ const TaskEventSquare: React.FC<TaskSquareProps> = ({
             ) : (
                 <Text
                     fontWeight="500"
-                    fontSize={{ base: "0.6rem", lg: "1rem" }}
+                    fontSize="0.6rem"
                     textAlign="right"
                     lineHeight="40px"
                     borderRadius="20px"
@@ -92,8 +93,9 @@ const TasksSection: React.FC<TaskSectionProps> = ({ student }) => {
     return (
         <Flex
             background="rgba(255, 255, 255, 0.8)"
-            width="35vw"
-            height="100%"
+            marginTop={{ base: "10vh", md: "0" }}
+            width={{ base: "90vw", md: "35vw" }}
+            height={{ base: "fit-content", md: "100%" }}
             filter="drop-shadow(2px 4px 1px rgba(0, 0, 0, 0.25))"
             borderRadius="30px"
             padding="35px"
@@ -102,7 +104,7 @@ const TasksSection: React.FC<TaskSectionProps> = ({ student }) => {
         >
             <Text
                 color="accent.900"
-                fontSize={{ base: "0.9rem", lg: "1.6rem" }}
+                fontSize="0.9rem"
                 textAlign="left"
                 width="100%"
             >

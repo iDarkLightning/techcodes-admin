@@ -39,7 +39,7 @@ const AppSquare: React.FC<AppSquareProps> = ({
     to = "",
 }) => {
     return (
-        <GridItem colSpan={wide ? 2 : 1}>
+        <GridItem colSpan={wide ? 2 : { base: 2, md: 1 }}>
             <Link href={to} isExternal _focus={{ outline: "0 !important" }}>
                 <Flex
                     height="100%"
@@ -77,7 +77,7 @@ const StatsSquare: React.FC<StatsSquareProps> = ({
     wide = false,
 }) => {
     return (
-        <GridItem colSpan={wide ? 2 : 1}>
+        <GridItem colSpan={wide ? 2 : { base: 2, md: 1 }}>
             <Flex
                 width="100%"
                 height="100%"
@@ -123,14 +123,15 @@ const AppStatsSection: React.FC<AppSectionProps> = ({ user, student }) => {
     return (
         <Flex
             flexDirection="column"
-            width="32vw"
+            width={{ base: "100vw", md: "32vw" }}
             height="100%"
             justifyContent="space-between"
+            alignItems="center"
         >
             <Flex
                 alignItems="center"
                 justifyContent="space-between"
-                width="100%"
+                width={{ base: "90%", md: "100%" }}
                 height="10%"
                 marginBottom="5%"
             >
@@ -154,7 +155,7 @@ const AppStatsSection: React.FC<AppSectionProps> = ({ user, student }) => {
                 </Flex>
                 <Box
                     overflow="hidden"
-                    width="5vw"
+                    width="40px"
                     height="40px"
                     borderRadius="20px"
                 >
@@ -166,7 +167,7 @@ const AppStatsSection: React.FC<AppSectionProps> = ({ user, student }) => {
                 templateColumns="repeat(2, minmax(0, 1fr))"
                 gap="40px"
                 height="85%"
-                width="100%"
+                width={{ base: "85%", md: "100%" }}
             >
                 {student ? (
                     <>
