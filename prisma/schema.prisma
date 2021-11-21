@@ -61,8 +61,16 @@ model User {
   sessions      Session[]
 
   // custom fields
-  role Role    @default(MEMBER)
-  osis String?
+  role           Role     @default(MEMBER)
+  redeemedPoints String[]
+  osis           String?
+}
+
+model Points {
+  id       String  @id @default(uuid()) @map("_id")
+  name     String
+  value    Int
+  linkCode String? @unique
 }
 
 enum Role {
