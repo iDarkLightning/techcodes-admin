@@ -53,7 +53,7 @@ const AppSquare: React.FC<AppSquareProps> = ({
         >
           <Image src={"/graph.svg"} alt={"random"} height="50%" />
           <Text
-            fontWeight="600"
+            fontWeight="bold"
             color="accent.900"
             fontSize="1.2rem"
             textAlign="center"
@@ -145,7 +145,7 @@ const AppStatsSection: React.FC<AppSectionProps> = ({ user, student }) => {
             {student ? "Stats" : "Apps"}
           </Text>
         </Flex>
-        <Box overflow="hidden" width="3rem" height="100%">
+        <Box width="3rem" height="100%" borderRadius="50%">
           <Image src={src} alt="You" width="100%" />
         </Box>
       </Flex>

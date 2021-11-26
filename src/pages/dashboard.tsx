@@ -27,7 +27,7 @@ const Dashboard: React.FC<UserPageProps> = ({ user }) => {
           height={{ base: "85vh", md: "90vh" }}
           m={{ base: "2rem auto 0 auto", md: "auto" }}
           flexDirection={{ base: "column", md: "row" }}
-          width="80%"
+          width="90%"
           justifyContent="space-between"
         >
           <Box width="100%">
