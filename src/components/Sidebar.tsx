@@ -29,8 +29,8 @@ export const Sidebar: React.FC = () => (
   >
     <SVGLink to="/" src="logo.svg" alt="Logo"></SVGLink>
     <IconButton
-      bgColor="white"
-      color="accent.900"
+      bgColor={{ base: "white", md: "accent.900" }}
+      color={{ base: "accent.900", md: "white" }}
       width="3rem"
       height="3rem"
       icon={<FiLogOut />}

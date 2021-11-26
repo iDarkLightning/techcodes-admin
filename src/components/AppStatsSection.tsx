@@ -176,7 +176,9 @@ const AppStatsSection: React.FC<AppSectionProps> = ({ user, student }) => {
             <AppSquare color="#EFFCEF" to="https://admin.techcodes.org/editor">
               Dato CMS
             </AppSquare>
-            <AppSquare color="#E6F5F9">Attendance</AppSquare>
+            <AppSquare color="#E6F5F9" to="https://trello.com/techcodes/home">
+              Trello
+            </AppSquare>
             <AppSquare color="#F4F6FA">Email Maker</AppSquare>
           </>
         )}
