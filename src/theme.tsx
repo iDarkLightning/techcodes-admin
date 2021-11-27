@@ -16,6 +16,7 @@ const theme = extendTheme({
   // color: "#000066",
   colors: {
     bg: "#F2F7FF",
+    secondary: "#C3EECA",
     accent: {
       700: "#77779D",
       800: "#000099",
@@ -36,7 +37,7 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        overflow: "hidden",
+        // overflow: "hidden",
       },
     },
   },

@@ -27,7 +27,7 @@ export const Sidebar: React.FC = () => (
     flexDirection={{ base: "row", md: "column" }}
     padding={{ base: "2.5rem 10%", md: "2% 0" }}
   >
-    <SVGLink to="/" src="logo.svg" alt="Logo"></SVGLink>
+    <SVGLink to="/" src="/logo.svg" alt="Logo" />
     <IconButton
       bgColor={{ base: "white", md: "accent.900" }}
       color={{ base: "accent.900", md: "white" }}

@@ -1,8 +1,11 @@
-import { Box, Button, Flex, Heading, Stack } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Stack, Image } from "@chakra-ui/react";
 import { Points, PrismaClient, Role, User } from "@prisma/client";
 import React from "react";
 import { withUser } from "../../helpers/withUser";
-import QRCode from "qrcode.react";
+import { prisma } from "../../lib/prisma";
+import ExecPointsPage from "../../components/points/ExecPointsPage";
+import { Sidebar } from "../../components/Sidebar";
+import StudentPointsPage from "../../components/points/StudentPointsPage";
 
 interface RedeemPointsProps {
   user: User;
@@ -10,8 +13,6 @@ interface RedeemPointsProps {
   value?: number;
   link?: Points;
 }
-
-const prisma = new PrismaClient();
 
 const RedeemPoints: React.FC<RedeemPointsProps> = ({
   user,
@@ -21,27 +22,16 @@ const RedeemPoints: React.FC<RedeemPointsProps> = ({
 }) => {
   switch (user.role) {
     case Role.EXEC:
-      return (
-        <Stack
-          display="flex"
-          width="100vw"
-          h="100vh"
-          justifyContent="center"
-          alignItems="center"
-          bgColor="bg"
-          flexDirection="column"
-        >
-          <QRCode value={`http://localhost:3000/${link.linkCode}`} size={256} />
-          <Heading color="accent.900" fontWeight="500" fontSize="2rem">
-            {link.name[0].toUpperCase() +
-              link.name.substring(1, link.name.length)}{" "}
-            - {link.value} Points
-          </Heading>
-          <Button>Disable</Button>
-        </Stack>
-      );
+      return <ExecPointsPage link={link} />;
     case Role.MEMBER:
-      return <p>Student</p>;
+      return (
+        <StudentPointsPage
+          user={user}
+          link={link}
+          error={error}
+          value={value}
+        />
+      );
   }
 };
 
@@ -56,8 +46,23 @@ export const getServerSideProps = withUser(async ({ user, context }) => {
     if (!pointLink || !user)
       return { redirect: { destination: "/", permanent: false } };
 
+    if (!pointLink.enabled)
+      return {
+        props: {
+          user,
+          error: "This link has been disabled",
+          value: null,
+        },
+      };
+
     if (user.redeemedPoints.includes(pointLink.id)) {
-      return { props: { user, error: "already redeemed", value: null } };
+      return {
+        props: {
+          user,
+          error: "You have already reedemed this link!",
+          value: null,
+        },
+      };
     }
 
     await prisma.user.update({

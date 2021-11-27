@@ -62,15 +62,23 @@ model User {
 
   // custom fields
   role           Role     @default(MEMBER)
+  points         Int      @default(0)
   redeemedPoints String[]
   osis           String?
 }
 
 model Points {
-  id       String  @id @default(uuid()) @map("_id")
+  id       String     @id @default(uuid()) @map("_id")
+  type     PointsType
   name     String
   value    Int
-  linkCode String? @unique
+  enabled  Boolean    @default(true)
+  linkCode String?    @unique
+}
+
+enum PointsType {
+  LINK
+  MANUAL
 }
 
 enum Role {

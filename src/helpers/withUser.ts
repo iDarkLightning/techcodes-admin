@@ -1,8 +1,7 @@
-import { PrismaClient, User } from ".prisma/client";
-import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import { User } from ".prisma/client";
+import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
-
-const prisma = new PrismaClient();
+import { prisma } from "../lib/prisma";
 
 export const withUser = (
   gssp: (args: { user: User; context: GetServerSidePropsContext }) => any

@@ -1,98 +1,146 @@
-import { Points, PrismaClient, Role } from ".prisma/client";
+import { Points, PointsType, Role, User } from ".prisma/client";
 import {
   Box,
   Button,
+  Divider,
   Flex,
+  Grid,
+  GridItem,
   Heading,
-  HStack,
   Input,
-  Link,
-  VStack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Image,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+  useBreakpointValue,
 } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/dist/client/router";
-import React, { useState } from "react";
 import { Sidebar } from "../components/Sidebar";
 import { withUser } from "../helpers/withUser";
+import useSWR from "swr";
+import UserPointRow from "../components/points/UserPointRow";
+import SearchUser from "../components/points/SearchUser";
+import PointLinkRow from "../components/points/PointLinkRow";
+import CreatePoints from "../components/points/CreatePoints";
 
-const prisma = new PrismaClient();
+const fetchUsers = async (url) => {
+  const res = await axios.get<User[]>(url);
+  return res.data;
+};
 
-const Points: React.FC<{ links: Points[] }> = ({ links }) => {
-  const [value, setValue] = useState(0);
-  const [name, setName] = useState("");
-  const router = useRouter();
+const fetchPoints = async (url) => {
+  const res = await axios.get<Points[]>(url);
+  return res.data;
+};
 
-  const submit = async () => {
-    const res = await axios.post("/api/points", { value, name });
-    console.log(res);
-    window.location.reload();
-  };
+const Points: React.FC<{ links: Points[] }> = () => {
+  const { data: userData } = useSWR("/api/users", fetchUsers);
+  const { data: linkData } = useSWR("/api/points", fetchPoints);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [searchParam, setSearchParam] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const mobileGrid = useBreakpointValue({ base: true, md: false });
 
   return (
-    <Flex>
+    <Flex flexDirection={{ base: "column", md: "row" }}>
       <Sidebar />
-      <Box width="100%" bgColor="bg">
-        <Box width="90%" margin="0 auto" padding="2% 0 ">
-          <Heading color="accent.900">Points Manager</Heading>
-          <HStack mt="2rem">
-            <Input
-              width="30%"
-              variant="filled"
-              bgColor="white"
-              placeholder="Name"
-              onChange={(event) => setName(event.target.value)}
-            />
-            <Input
-              width="20%"
-              variant="filled"
-              bgColor="white"
-              placeholder="Value"
-              onChange={(event) => setValue(parseInt(event.target.value))}
-            />
-            <Button
-              bgColor="accent.900"
-              color="bg"
-              _hover={{ bgColor: "accent.800" }}
-              fontWeight="normal"
-              onClick={submit}
-            >
-              Generate
-            </Button>
-          </HStack>
-          <VStack width="100%" mt="2rem">
-            {links.map((link) => (
-              <Flex
-                alignItems="center"
-                justifyContent="space-between"
-                width="100%"
-                bgColor="white"
-                p="0.5rem 1rem"
-                borderRadius="20px"
-                mb="1rem"
-                key={link.id}
-              >
-                <Heading fontWeight="500" color="accent.900">
-                  {link.name[0].toUpperCase() +
-                    link.name.substring(1, link.name.length)}{" "}
-                  - {link.value} Points
-                </Heading>
-                <Link
-                  bgColor="accent.900"
-                  color="bg"
-                  _hover={{ bgColor: "accent.800" }}
-                  fontWeight="normal"
-                  p="1rem 1rem"
-                  borderRadius="20px"
-                  href={`points/${link.linkCode}`}
-                  target="_blank"
+      <Flex
+        height={{ base: "85vh", md: "90vh" }}
+        m={{ base: "2rem auto 0 auto", md: "auto" }}
+        flexDirection="column"
+        width="90%"
+      >
+        <Heading fontWeight="500">Points Manager</Heading>
+        <Tabs
+          mt="2rem"
+          isLazy
+          variant="soft-rounded"
+          colorScheme="green"
+          onChange={(index) => setTabIndex(index)}
+        >
+          <Flex width="100%" flexDirection="row" justifyContent="space-between">
+            <TabList>
+              <Tab color="black">Points</Tab>
+              <Tab>Links</Tab>
+            </TabList>
+            <Flex>
+              {tabIndex == 0 ? (
+                <SearchUser setSearchParam={setSearchParam} />
+              ) : (
+                <Button bgColor="secondary" borderRadius="0" onClick={onOpen}>
+                  Create a Link
+                </Button>
+              )}
+            </Flex>
+          </Flex>
+          <Box
+            width="100%"
+            mt="2rem"
+            bgColor="#F6F6F6"
+            h="70vh"
+            overflow="auto"
+          >
+            <TabPanels>
+              <TabPanel>
+                <Grid
+                  templateColumns={
+                    mobileGrid ? "1fr 1fr 1fr" : "1fr 1fr 1fr 1fr 1fr"
+                  }
+                  padding="1rem"
+                  fontWeight="bold"
                 >
-                  View
-                </Link>
-              </Flex>
-            ))}
-          </VStack>
-        </Box>
-      </Box>
+                  {!mobileGrid && <GridItem>Avatar</GridItem>}
+                  <GridItem>OSIS</GridItem>
+                  <GridItem>Name</GridItem>
+                  {!mobileGrid && <GridItem>Email Address</GridItem>}
+                  <GridItem>Points</GridItem>
+                </Grid>
+                <Divider color="secondary" />
+                {userData &&
+                  userData
+                    .filter((user) => user.role !== Role.EXEC)
+                    .filter((user) =>
+                      user.name.toLowerCase().includes(searchParam)
+                    )
+                    .map((user) => <UserPointRow user={user} />)}
+              </TabPanel>
+              <TabPanel>
+                <Grid
+                  templateColumns={
+                    mobileGrid ? "1fr 1fr 1fr" : "1fr 1fr 1fr 1fr 1fr"
+                  }
+                  padding="1rem"
+                  fontWeight="bold"
+                >
+                  <GridItem>Name</GridItem>
+                  <GridItem>Value</GridItem>
+                  {!mobileGrid && <GridItem>Code</GridItem>}
+                  {!mobileGrid && <GridItem>Status</GridItem>}
+                  <GridItem>View More</GridItem>
+                </Grid>
+                <Divider scolor="secondary" />
+                {linkData &&
+                  linkData
+                    .filter((link) => link.type === PointsType.LINK)
+                    .map((link) => <PointLinkRow point={link} />)}
+              </TabPanel>
+              <CreatePoints isOpen={isOpen} onClose={onClose} />
+            </TabPanels>
+          </Box>
+        </Tabs>
+      </Flex>
     </Flex>
   );
 };
@@ -102,9 +150,10 @@ export const getServerSideProps = withUser(async ({ user }) => {
   if (user.role !== Role.EXEC)
     return { redirect: { destination: "/dashboard", permanent: false } };
 
-  const links = await prisma.points.findMany();
+  return { props: {} };
+  // const links = await prisma.points.findMany();
 
-  return { props: { user, links } };
+  // return { props: { user, links } };
 });
 
 export default Points;

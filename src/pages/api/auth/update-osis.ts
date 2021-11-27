@@ -1,7 +1,6 @@
 import { PrismaClient, Role } from ".prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../../lib/prisma";
 
 type Body = { email: string; osis: string };
 type Query = {
