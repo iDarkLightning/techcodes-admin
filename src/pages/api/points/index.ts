@@ -1,6 +1,8 @@
 import { PointsType } from ".prisma/client";
+import { Role } from "@prisma/client";
 import { randomBytes } from "crypto";
 import { NextApiRequest, NextApiResponse } from "next";
+import { isAuth } from "../../../lib/exec-auth";
 import { prisma } from "../../../lib/prisma";
 
 type PostBody = {
@@ -48,12 +50,13 @@ const patchHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.status(200).json(updated);
 };
 
-const putHandler = async (req: NextApiRequest, res: NextApiResponse) => {};
-
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "GET") return await getHandler(res);
-  if (req.method === "POST") return await postHandler(req, res);
-  if (req.method === "PATCH") return await patchHandler(req, res);
-};
+const handler = isAuth(
+  [Role.EXEC],
+  async (req: NextApiRequest, res: NextApiResponse) => {
+    if (req.method === "GET") return await getHandler(res);
+    if (req.method === "POST") return await postHandler(req, res);
+    if (req.method === "PATCH") return await patchHandler(req, res);
+  }
+);
 
 export default handler;

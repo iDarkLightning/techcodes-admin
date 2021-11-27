@@ -1,47 +1,46 @@
-import { User } from ".prisma/client";
-import { UseDisclosureReturn } from "@chakra-ui/hooks";
 import {
-  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  Stack,
   FormControl,
   FormLabel,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Stack,
-  Text,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  ModalFooter,
+  Button,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 
-interface CreatePointsProps {
+interface EditPointsProps {
+  userId: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const CreatePoints: React.FC<CreatePointsProps> = ({ isOpen, onClose }) => {
+const EditPoints: React.FC<EditPointsProps> = ({ userId, isOpen, onClose }) => {
   const [name, setName] = useState("");
   const [value, setValue] = useState(0);
   const { mutate } = useSWRConfig();
 
   const submit = async () => {
-    const res = await axios.post("/api/points", {
+    const res = await axios.post("/api/points/manual", {
+      userId,
       name,
       value,
     });
 
     if (res.data) {
-      mutate("/api/points");
+      mutate("/api/users");
       onClose();
     }
   };
@@ -50,7 +49,7 @@ const CreatePoints: React.FC<CreatePointsProps> = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Create a Link</ModalHeader>
+        <ModalHeader>Edit Points</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Stack>
@@ -81,7 +80,7 @@ const CreatePoints: React.FC<CreatePointsProps> = ({ isOpen, onClose }) => {
             isDisabled={name === "" || value === 0}
             onClick={submit}
           >
-            Create
+            Edit
           </Button>
         </ModalFooter>
       </ModalContent>
@@ -89,4 +88,4 @@ const CreatePoints: React.FC<CreatePointsProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default CreatePoints;
+export default EditPoints;

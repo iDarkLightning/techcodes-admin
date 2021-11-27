@@ -7,7 +7,9 @@ import {
   Link,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import axios from "axios";
 import React from "react";
+import { useSWRConfig } from "swr";
 
 interface PointLinkRowProps {
   point: Points;
@@ -15,6 +17,16 @@ interface PointLinkRowProps {
 
 const PointLinkRow: React.FC<PointLinkRowProps> = ({ point }) => {
   const mobileGrid = useBreakpointValue({ base: true, md: false });
+  const { mutate } = useSWRConfig();
+
+  const toggle = async () => {
+    await axios.patch("/api/points", {
+      id: point.id,
+      value: !point.enabled,
+    });
+
+    mutate("/api/points");
+  };
 
   return (
     <Grid
@@ -31,6 +43,9 @@ const PointLinkRow: React.FC<PointLinkRowProps> = ({ point }) => {
             bgColor={point.enabled ? "secondary" : "#ff6961"}
             p="0.4rem"
             borderRadius="20px"
+            onClick={toggle}
+            cursor="pointer"
+            _hover={{ opacity: "80%", transition: "opacity ease-in 200ms" }}
           >
             {point.enabled ? "Active" : "Inactive"}
           </chakra.span>

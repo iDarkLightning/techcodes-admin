@@ -20,7 +20,6 @@ const Osis: React.FC<UserPageProps> = ({ user }) => {
   const submit = () => {
     axios
       .post("/api/auth/update-osis", {
-        email: user.email,
         osis,
       })
       .then(() => router.push("/dashboard"));

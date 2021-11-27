@@ -1,11 +1,9 @@
-import { Box, Button, Flex, Heading, Stack, Image } from "@chakra-ui/react";
-import { Points, PrismaClient, Role, User } from "@prisma/client";
+import { Points, Role, User } from "@prisma/client";
 import React from "react";
+import ExecPointsPage from "../../components/points/ExecPointsPage";
+import StudentPointsPage from "../../components/points/StudentPointsPage";
 import { withUser } from "../../helpers/withUser";
 import { prisma } from "../../lib/prisma";
-import ExecPointsPage from "../../components/points/ExecPointsPage";
-import { Sidebar } from "../../components/Sidebar";
-import StudentPointsPage from "../../components/points/StudentPointsPage";
 
 interface RedeemPointsProps {
   user: User;
@@ -36,6 +34,8 @@ const RedeemPoints: React.FC<RedeemPointsProps> = ({
 };
 
 export const getServerSideProps = withUser(async ({ user, context }) => {
+  if (!user) return { redirect: { destination: "/", permanent: false } };
+
   const { code } = context.params;
 
   const pointLink = await prisma.points.findUnique({

@@ -1,7 +1,6 @@
-import { PointsType } from ".prisma/client";
+import { Role } from ".prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Session } from "next-auth";
-import { getSession } from "next-auth/react";
+import { isAuth } from "../../../../lib/exec-auth";
 import { prisma } from "../../../../lib/prisma";
 
 const getHandler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -20,8 +19,11 @@ const getHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   );
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "GET") return await getHandler(req, res);
-};
+const handler = isAuth(
+  [Role.EXEC],
+  async (req: NextApiRequest, res: NextApiResponse) => {
+    if (req.method === "GET") return await getHandler(req, res);
+  }
+);
 
 export default handler;

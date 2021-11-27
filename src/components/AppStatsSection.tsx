@@ -40,7 +40,7 @@ const AppSquare: React.FC<AppSquareProps> = ({
 }) => {
   return (
     <GridItem colSpan={wide ? 2 : { base: 2, md: 1 }}>
-      <Link href={to} isExternal _focus={{ outline: "0 !important" }}>
+      <Link href={to} _focus={{ outline: "0 !important" }}>
         <Flex
           p="2em"
           height="100%"

@@ -1,17 +1,17 @@
-import { PrismaClient } from ".prisma/client";
+import { Role } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
+import { isAuth } from "../../lib/exec-auth";
 import { prisma } from "../../lib/prisma";
 
 const getHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.json(await prisma.user.findMany());
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({ req });
-  if (!session) return res.status(401).json({ message: "Unauthorized" });
-
-  if (req.method === "GET") return await getHandler(req, res);
-};
+const handler = isAuth(
+  [Role.EXEC],
+  async (req: NextApiRequest, res: NextApiResponse) => {
+    if (req.method === "GET") return await getHandler(req, res);
+  }
+);
 
 export default handler;

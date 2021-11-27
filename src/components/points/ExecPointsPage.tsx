@@ -49,7 +49,6 @@ const ExecPointsPage: React.FC<ExecPointsPageProps> = ({ link }) => {
           >
             {link.enabled ? "Disable" : "Enable"}
           </Button>
-          {/* </Stack> */}
         </Flex>
         <Box flex="1" bgColor="#f6f6f6" mt={{ base: "2rem", md: null }}>
           <ReedembedBy link={link} />
