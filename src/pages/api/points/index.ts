@@ -1,3 +1,3 @@
-import { pointsHandler } from "../../../apps/points-manger/controllers";
+import { pointsHandler } from "../../../apps/points-manager/controllers";
 
 export default pointsHandler;

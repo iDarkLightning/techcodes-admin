@@ -1,3 +1,3 @@
-import { pointsRedeemedHandler } from "../../../../apps/points-manger/controllers/redeemed";
+import { pointsRedeemedHandler } from "../../../../apps/points-manager/controllers/redeemed";
 
 export default pointsRedeemedHandler;

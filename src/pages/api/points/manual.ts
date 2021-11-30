@@ -1,3 +1,3 @@
-import { manualPostHandler } from "../../../apps/points-manger/controllers/manual";
+import { manualPostHandler } from "../../../apps/points-manager/controllers/manual";
 
 export default manualPostHandler;
