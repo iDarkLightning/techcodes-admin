@@ -1,20 +1,17 @@
+import { EditIcon } from "@chakra-ui/icons";
 import {
   Divider,
-  Editable,
-  EditableInput,
-  EditablePreview,
   Flex,
-  Text,
   Grid,
   GridItem,
-  Image,
-  useBreakpointValue,
   IconButton,
+  Image,
+  Text,
+  useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React from "react";
-import { EditIcon } from "@chakra-ui/icons";
 import { UserPageProps } from "../../types/UserProp";
 import EditPoints from "./EditPoints";
 

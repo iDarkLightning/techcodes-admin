@@ -1,5 +1,4 @@
 import { Flex, IconButton, Image, Link } from "@chakra-ui/react";
-import { motion } from "framer-motion";
 import { signOut } from "next-auth/react";
 import React from "react";
 import { FiLogOut } from "react-icons/fi";
