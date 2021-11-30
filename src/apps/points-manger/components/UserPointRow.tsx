@@ -10,22 +10,12 @@ import {
   useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import axios from "axios";
 import React from "react";
-import { UserPageProps } from "../../types/UserProp";
+import { UserPageProps } from "../../../types/UserProp";
 import EditPoints from "./EditPoints";
 
 const UserPointRow: React.FC<UserPageProps> = ({ user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const submit = async (value) => {
-    if (parseInt(value) === user.points) return;
-
-    await axios.post("/api/points/manual", {
-      userId: user.id,
-      value: parseInt(value),
-    });
-  };
   const mobileGrid = useBreakpointValue({ base: true, md: false });
 
   return (

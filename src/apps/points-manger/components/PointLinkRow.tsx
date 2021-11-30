@@ -1,9 +1,8 @@
 import { Points } from ".prisma/client";
 import {
-  Button,
+  chakra,
   Grid,
   GridItem,
-  chakra,
   Link,
   useBreakpointValue,
 } from "@chakra-ui/react";

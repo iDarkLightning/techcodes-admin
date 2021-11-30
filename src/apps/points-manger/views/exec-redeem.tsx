@@ -3,14 +3,14 @@ import { Box, Button, Flex, Heading, Stack } from "@chakra-ui/react";
 import axios from "axios";
 import QRCode from "qrcode.react";
 import React from "react";
-import { Sidebar } from "../Sidebar";
-import ReedembedBy from "./ReedembedBy";
+import ReedembedBy from "../components/ReedembedBy";
+import { Sidebar } from "../../../components/Sidebar";
 
 interface ExecPointsPageProps {
   link: Points;
 }
 
-const ExecPointsPage: React.FC<ExecPointsPageProps> = ({ link }) => {
+export const ExecPointsPage: React.FC<ExecPointsPageProps> = ({ link }) => {
   const toggle = async () => {
     await axios.patch("/api/points", {
       id: link.id,
@@ -57,5 +57,3 @@ const ExecPointsPage: React.FC<ExecPointsPageProps> = ({ link }) => {
     </Flex>
   );
 };
-
-export default ExecPointsPage;

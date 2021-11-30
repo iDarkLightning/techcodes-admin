@@ -1,7 +1,7 @@
 import { Points, Role, User } from "@prisma/client";
 import React from "react";
-import ExecPointsPage from "../../components/points/ExecPointsPage";
-import StudentPointsPage from "../../components/points/StudentPointsPage";
+import { ExecPointsPage } from "../../apps/points-manger/views/exec-redeem";
+import { StudentPointsPage } from "../../apps/points-manger/views/student-redeem";
 import { withUser } from "../../helpers/withUser";
 import { prisma } from "../../lib/prisma";
 
@@ -22,17 +22,11 @@ const RedeemPoints: React.FC<RedeemPointsProps> = ({
     case Role.EXEC:
       return <ExecPointsPage link={link} />;
     case Role.MEMBER:
-      return (
-        <StudentPointsPage
-          user={user}
-          link={link}
-          error={error}
-          value={value}
-        />
-      );
+      return <StudentPointsPage link={link} error={error} value={value} />;
   }
 };
 
+// Mutating the DB in getServerSideProps might be bad practice, should look into it
 export const getServerSideProps = withUser(async ({ user, context }) => {
   if (!user) return { redirect: { destination: "/", permanent: false } };
 

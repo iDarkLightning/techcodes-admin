@@ -1,5 +1,3 @@
-import { User } from ".prisma/client";
-import { UseDisclosureReturn } from "@chakra-ui/hooks";
 import {
   Button,
   FormControl,
@@ -18,7 +16,6 @@ import {
   NumberInputField,
   NumberInputStepper,
   Stack,
-  Text,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
