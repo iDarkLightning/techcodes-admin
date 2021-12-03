@@ -1,10 +1,10 @@
 import { Role } from ".prisma/client";
 import React from "react";
-import { PointsView } from "../apps/points-manager/views/manager";
+import { EmailsView } from "../apps/email-maker/views/manager";
 import { withUser } from "../helpers/withUser";
 
-const PointsManager: React.FC = () => {
-    return <PointsView />;
+const EmailMaker: React.FC = () => {
+    return <EmailsView />;
 };
 
 export const getServerSideProps = withUser(async ({ user }) => {
@@ -15,4 +15,4 @@ export const getServerSideProps = withUser(async ({ user }) => {
     return { props: {} };
 });
 
-export default PointsManager;
+export default EmailMaker;
