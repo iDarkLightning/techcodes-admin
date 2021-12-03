@@ -40,7 +40,10 @@ export const ExecPointsPage: React.FC<ExecPointsPageProps> = ({ link }) => {
           <Heading fontSize="3.5vmax">
             {link.name} - {link.value} Points
           </Heading>
-          <QRCode value={`/points/${link.linkCode}`} size={400} />
+          <QRCode
+            value={`${process.env.NEXT_PUBLIC_URL}/points/${link.linkCode}`}
+            size={400}
+          />
           <Button
             bgColor={link.enabled ? "#ff6961" : "secondary"}
             width="50%"
