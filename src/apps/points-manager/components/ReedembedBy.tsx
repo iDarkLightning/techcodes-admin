@@ -23,7 +23,7 @@ const ReedembedBy: React.FC<ReedembedByProps> = ({ link }) => {
       const res = await axios.get<User[]>(url);
       return res.data;
     },
-    { refreshInterval: 2000 }
+    { refreshInterval: 5000 } // for idiots, this is 5s (im gonna forget later)
   );
 
   useEffect(() => console.log(data), []);
