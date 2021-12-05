@@ -6,6 +6,11 @@ generator client {
   previewFeatures = ["mongoDb"]
 }
 
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  emitOnly = "enums,models"
+}
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
