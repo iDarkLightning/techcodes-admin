@@ -5,6 +5,7 @@ import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
 import { prisma } from "../../../lib/prisma";
 import { CreatePoints } from "../types/create-points.input";
 import { DisablePoints } from "../types/disable-points.input";
+import { ManualPointsUpdate } from "../types/manual-update.input";
 
 @Resolver()
 export class PointsResolver {
@@ -38,6 +39,31 @@ export class PointsResolver {
         name,
         value,
         linkCode: code,
+      },
+    });
+  }
+
+  @Mutation(() => User)
+  @Authorized(Role.EXEC)
+  async manualPointAward(
+    @Arg("manualPointInput") args: ManualPointsUpdate
+  ): Promise<User> {
+    const { value, userId, name } = args;
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+
+    const points = await prisma.points.create({
+      data: {
+        type: PointsType.MANUAL,
+        name,
+        value,
+      },
+    });
+
+    return await prisma.user.update({
+      where: { id: userId },
+      data: {
+        redeemedPoints: [...user.redeemedPoints, points.id],
+        points: user.points + value,
       },
     });
   }
