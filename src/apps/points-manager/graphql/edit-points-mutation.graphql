@@ -1,0 +1,5 @@
+mutation EditPoints($input: ManualPointsUpdate!) {
+  manualPointAward(manualPointInput: $input) {
+    id
+  }
+}

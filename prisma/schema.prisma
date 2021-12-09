@@ -76,7 +76,7 @@ model Points {
   id       String     @id @default(uuid()) @map("_id")
   type     PointsType
   name     String
-  value    Int
+  value    Float
   enabled  Boolean    @default(true)
   linkCode String?    @unique
 }

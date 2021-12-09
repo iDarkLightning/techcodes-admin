@@ -1,7 +1,14 @@
 import { Role } from ".prisma/client";
 import { User } from "@generated/type-graphql";
 import { getSession } from "next-auth/react";
-import { Arg, Authorized, Ctx, Mutation, ObjectType } from "type-graphql";
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  Mutation,
+  ObjectType,
+  Query,
+} from "type-graphql";
 import { prisma } from "../../lib/prisma";
 import { Context } from "../../types/Context";
 
@@ -12,6 +19,12 @@ type Query = {
 
 @ObjectType()
 export class AuthResolver {
+  @Query(() => [User])
+  @Authorized(Role.EXEC)
+  async users(): Promise<User[]> {
+    return await prisma.user.findMany();
+  }
+
   @Mutation(() => User)
   @Authorized(Role.EXEC, Role.MEMBER)
   async register(@Arg("osis") osis: string, @Ctx() context: Context) {

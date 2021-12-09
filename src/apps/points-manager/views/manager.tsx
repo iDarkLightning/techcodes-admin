@@ -1,6 +1,4 @@
 import {
-  useDisclosure,
-  useBreakpointValue,
   Box,
   Button,
   Divider,
@@ -13,31 +11,32 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useBreakpointValue,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { Role, PointsType, User, Points } from "@prisma/client";
-import axios from "axios";
+import { PointsType, Role } from "@prisma/client";
 import React, { useState } from "react";
-import useSWR from "swr";
+import { Sidebar } from "../../../components/Sidebar";
+import { usePointsQuery, useUsersQuery } from "../../../generated/graphql";
+import { useFocusPoll } from "../../../shared-hooks/useFocusPoll";
 import CreatePoints from "../components/CreatePoints";
 import PointLinkRow from "../components/PointLinkRow";
 import SearchUser from "../components/SearchUser";
-import { Sidebar } from "../../../components/Sidebar";
 import UserPointRow from "../components/UserPointRow";
 
 export const PointsView: React.FC = () => {
-  const { data: userData } = useSWR("/api/users", async (url) => {
-    const res = await axios.get<User[]>(url);
-    return res.data;
-  });
-  const { data: linkData } = useSWR("/api/points", async (url) => {
-    const res = await axios.get<Points[]>(url);
-    return res.data;
-  });
+  const { data: userData } = useUsersQuery();
+  const {
+    data: linkData,
+    startPolling: pointsStartPolling,
+    stopPolling: pointsStopPolling,
+  } = usePointsQuery();
   const [tabIndex, setTabIndex] = useState(0);
   const [searchParam, setSearchParam] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const mobileGrid = useBreakpointValue({ base: true, md: false });
+  useFocusPoll(pointsStartPolling, pointsStopPolling, 10 * 1000);
 
   return (
     <Flex flexDirection={{ base: "column", md: "row" }}>
@@ -95,12 +94,12 @@ export const PointsView: React.FC = () => {
                 </Grid>
                 <Divider color="secondary" />
                 {userData &&
-                  userData
+                  userData.users
                     .filter((user) => user.role !== Role.EXEC)
                     .filter((user) =>
                       user.name.toLowerCase().includes(searchParam)
                     )
-                    .map((user) => <UserPointRow user={user} />)}
+                    .map((user) => <UserPointRow user={user} key={user.id} />)}
               </TabPanel>
               <TabPanel>
                 <Grid
@@ -118,9 +117,9 @@ export const PointsView: React.FC = () => {
                 </Grid>
                 <Divider scolor="secondary" />
                 {linkData &&
-                  linkData
+                  linkData.points
                     .filter((link) => link.type === PointsType.LINK)
-                    .map((link) => <PointLinkRow point={link} />)}
+                    .map((link) => <PointLinkRow point={link} key={link.id} />)}
               </TabPanel>
               <CreatePoints isOpen={isOpen} onClose={onClose} />
             </TabPanels>

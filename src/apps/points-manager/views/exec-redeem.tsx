@@ -5,20 +5,19 @@ import QRCode from "qrcode.react";
 import React from "react";
 import ReedembedBy from "../components/ReedembedBy";
 import { Sidebar } from "../../../components/Sidebar";
+import {
+  namedOperations,
+  usePointsQuery,
+  useTogglePointsMutation,
+} from "../../../generated/graphql";
+import { gql, useApolloClient } from "@apollo/client";
 
 interface ExecPointsPageProps {
   link: Points;
 }
 
 export const ExecPointsPage: React.FC<ExecPointsPageProps> = ({ link }) => {
-  const toggle = async () => {
-    await axios.patch("/api/points", {
-      id: link.id,
-      value: !link.enabled,
-    });
-
-    window.location.reload();
-  };
+  const [toggle] = useTogglePointsMutation();
 
   return (
     <Flex flexDirection={{ base: "column", md: "row" }}>
@@ -48,12 +47,21 @@ export const ExecPointsPage: React.FC<ExecPointsPageProps> = ({ link }) => {
             bgColor={link.enabled ? "#ff6961" : "secondary"}
             width="50%"
             borderRadius="none"
-            onClick={toggle}
+            onClick={async () => {
+              await toggle({
+                variables: { input: { id: link.id, value: !link.enabled } },
+              });
+            }}
           >
             {link.enabled ? "Disable" : "Enable"}
           </Button>
         </Flex>
-        <Box flex="1" bgColor="#f6f6f6" mt={{ base: "2rem", md: null }}>
+        <Box
+          flex="1"
+          bgColor="#f6f6f6"
+          mt={{ base: "2rem", md: null }}
+          overflow="auto"
+        >
           <ReedembedBy link={link} />
         </Box>
       </Flex>

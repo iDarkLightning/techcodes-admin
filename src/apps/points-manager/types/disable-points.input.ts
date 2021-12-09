@@ -1,7 +1,7 @@
 import { Field, InputType } from "type-graphql";
 
 @InputType()
-export class DisablePoints {
+export class TogglePoints {
   @Field()
   id: string;
 

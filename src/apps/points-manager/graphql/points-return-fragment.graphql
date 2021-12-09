@@ -1,0 +1,8 @@
+fragment PointsReturn on Points {
+  id
+  linkCode
+  value
+  name
+  enabled
+  type
+}

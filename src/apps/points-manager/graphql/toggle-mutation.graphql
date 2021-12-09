@@ -1,0 +1,8 @@
+mutation TogglePoints($input: TogglePoints!) {
+  togglePoints(toggleInput: $input) {
+    id
+    type
+    name
+    value
+  }
+}

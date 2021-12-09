@@ -11,10 +11,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
-import { UserPageProps } from "../../../types/UserProp";
+import { UsersReturnFragment } from "../../../generated/graphql";
 import EditPoints from "./EditPoints";
 
-const UserPointRow: React.FC<UserPageProps> = ({ user }) => {
+const UserPointRow: React.FC<{ user: UsersReturnFragment }> = ({ user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mobileGrid = useBreakpointValue({ base: true, md: false });
 
@@ -41,11 +41,17 @@ const UserPointRow: React.FC<UserPageProps> = ({ user }) => {
           </Text>
         </GridItem>
         <GridItem alignSelf="center">
-          <Text width="80%" isTruncated>
+          <Text width="10vmax" textAlign="left" isTruncated>
             {user.name}
           </Text>
         </GridItem>
-        {!mobileGrid && <GridItem alignSelf="center">{user.email}</GridItem>}
+        {!mobileGrid && (
+          <GridItem alignSelf="center">
+            <Text width="18vmax" textAlign="left" isTruncated>
+              {user.email}
+            </Text>
+          </GridItem>
+        )}
         <GridItem alignSelf="center">
           <Flex alignItems="center" width="100%" justifyContent="space-between">
             <Text>{user.points}</Text>

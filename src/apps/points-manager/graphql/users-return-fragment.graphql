@@ -1,0 +1,9 @@
+fragment UsersReturn on User {
+  id
+  image
+  osis
+  name
+  email
+  points
+  role
+}

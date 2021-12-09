@@ -1,10 +1,10 @@
-import { Points, User } from "@generated/type-graphql";
+import { User, Points } from "@generated/type-graphql";
 import { PointsType, Role } from "@prisma/client";
 import { randomBytes } from "crypto";
 import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
 import { prisma } from "../../../lib/prisma";
 import { CreatePoints } from "../types/create-points.input";
-import { DisablePoints } from "../types/disable-points.input";
+import { TogglePoints } from "../types/disable-points.input";
 import { ManualPointsUpdate } from "../types/manual-update.input";
 
 @Resolver()
@@ -12,6 +12,7 @@ export class PointsResolver {
   @Query(() => [Points])
   @Authorized(Role.EXEC)
   async points(): Promise<Points[]> {
+    console.log("querying");
     return await prisma.points.findMany();
   }
 
@@ -70,9 +71,7 @@ export class PointsResolver {
 
   @Mutation(() => Points)
   @Authorized(Role.EXEC)
-  async disablePoints(
-    @Arg("disableInput") args: DisablePoints
-  ): Promise<Points> {
+  async togglePoints(@Arg("toggleInput") args: TogglePoints): Promise<Points> {
     const { id, value } = args;
 
     return await prisma.points.update({

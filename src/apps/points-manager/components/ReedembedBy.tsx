@@ -1,39 +1,34 @@
-import { Points, User } from ".prisma/client";
+import { Points } from ".prisma/client";
 import {
   Box,
+  Divider,
   Flex,
   Heading,
-  Stack,
   Image,
+  Stack,
   Text,
-  Divider,
 } from "@chakra-ui/react";
-import axios from "axios";
-import React, { useEffect } from "react";
-import useSWR from "swr";
+import React from "react";
+import { useRedeemedPointsQuery } from "../../../generated/graphql";
 
 interface ReedembedByProps {
   link: Points;
 }
 
 const ReedembedBy: React.FC<ReedembedByProps> = ({ link }) => {
-  const { data } = useSWR(
-    `/api/points/redeemed/${link.id}`,
-    async (url) => {
-      const res = await axios.get<User[]>(url);
-      return res.data;
-    },
-    { refreshInterval: 5000 } // for idiots, this is 5s (im gonna forget later)
-  );
+  const { data } = useRedeemedPointsQuery({
+    variables: { id: link.id },
+    pollInterval: 5000,
+  });
 
-  useEffect(() => console.log(data), []);
+  const reversed = data?.redeemedPoints.slice().reverse();
 
   return (
     <Box p="2rem">
       <Heading>Redeemed By</Heading>
       <Stack mt="2rem">
-        {data &&
-          data.map((user) => (
+        {reversed &&
+          reversed.map((user) => (
             <>
               <Flex justifyContent="space-between" alignItems="center">
                 <Flex alignItems="center">
