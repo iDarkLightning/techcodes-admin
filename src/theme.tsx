@@ -13,7 +13,6 @@ const breakpoints = createBreakpoints({
 });
 
 const theme = extendTheme({
-  // color: "#000066",
   colors: {
     bg: "#F2F7FF",
     secondary: "#C3EECA",
@@ -34,13 +33,6 @@ const theme = extendTheme({
   },
   fonts,
   breakpoints,
-  styles: {
-    global: {
-      body: {
-        // overflow: "hidden",
-      },
-    },
-  },
 });
 
 export default theme;

@@ -1,0 +1,5 @@
+mutation Register($osis: String!) {
+  register(osis: $osis) {
+    id
+  }
+}

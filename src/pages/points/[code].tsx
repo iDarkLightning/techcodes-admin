@@ -5,6 +5,7 @@ import React from "react";
 import { ExecPointsPage } from "../../apps/points-manager/views/exec-redeem";
 import { StudentPointsPage } from "../../apps/points-manager/views/student-redeem";
 import { withUser } from "../../helpers/withUser";
+import { withApollo } from "../../lib/apollo-client";
 import { prisma } from "../../lib/prisma";
 
 interface RedeemPointsProps {
@@ -37,7 +38,9 @@ const RedeemPoints: React.FC<RedeemPointsProps> = ({
         <Heading fontWeight="500">Please Sign In First!</Heading>
         <Button
           onClick={() =>
-            signIn("google", { callbackUrl: `/points/${link.linkCode}` })
+            signIn("google", {
+              callbackUrl: `/auth/osis/?callback=%2Fpoints%2F${link.linkCode}`,
+            })
           }
           backgroundColor="accent.900"
           color="white"
@@ -108,4 +111,4 @@ export const getServerSideProps = withUser(async ({ user, context }) => {
   }
 });
 
-export default RedeemPoints;
+export default withApollo({ ssr: false })(RedeemPoints);

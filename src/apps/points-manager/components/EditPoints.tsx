@@ -1,25 +1,27 @@
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  Stack,
+  Button,
   FormControl,
   FormLabel,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  ModalFooter,
-  Button,
+  Stack,
 } from "@chakra-ui/react";
-import axios from "axios";
 import React, { useState } from "react";
-import { useSWRConfig } from "swr";
+import {
+  namedOperations,
+  useEditPointsMutation,
+} from "../../../generated/graphql";
 
 interface EditPointsProps {
   userId: string;
@@ -30,20 +32,7 @@ interface EditPointsProps {
 const EditPoints: React.FC<EditPointsProps> = ({ userId, isOpen, onClose }) => {
   const [name, setName] = useState("");
   const [value, setValue] = useState(0);
-  const { mutate } = useSWRConfig();
-
-  const submit = async () => {
-    const res = await axios.post("/api/points/manual", {
-      userId,
-      name,
-      value,
-    });
-
-    if (res.data) {
-      mutate("/api/users");
-      onClose();
-    }
-  };
+  const [edit] = useEditPointsMutation();
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -78,7 +67,14 @@ const EditPoints: React.FC<EditPointsProps> = ({ userId, isOpen, onClose }) => {
             bgColor="secondary"
             borderRadius="0"
             isDisabled={name === "" || value === 0}
-            onClick={submit}
+            onClick={async () => {
+              await edit({
+                variables: { input: { userId, name, value } },
+                refetchQueries: [namedOperations.Query.Users],
+              });
+
+              onClose();
+            }}
           >
             Edit
           </Button>

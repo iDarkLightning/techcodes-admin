@@ -6,6 +6,11 @@ generator client {
   previewFeatures = ["mongoDb"]
 }
 
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  emitOnly = "enums,models"
+}
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
@@ -71,7 +76,7 @@ model Points {
   id       String     @id @default(uuid()) @map("_id")
   type     PointsType
   name     String
-  value    Int
+  value    Float
   enabled  Boolean    @default(true)
   linkCode String?    @unique
 }

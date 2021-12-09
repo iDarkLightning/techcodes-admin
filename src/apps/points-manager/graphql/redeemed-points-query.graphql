@@ -1,0 +1,6 @@
+query RedeemedPoints($id: String!) {
+  redeemedPoints(id: $id) {
+    name
+    image
+  }
+}

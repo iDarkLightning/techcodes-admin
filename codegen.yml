@@ -1,0 +1,16 @@
+overwrite: true
+schema: "http://localhost:3000/api/graphql"
+documents: "src/apps/**/graphql/*.graphql"
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+      - "named-operations-object"
+    config:
+      reactApolloVersion: 3
+      withHOC: false
+      withComponent: false
+      exportFragmentSpreadSubTypes: true
+      documentMode: graphQLTag

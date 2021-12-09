@@ -1,0 +1,5 @@
+mutation CreatePoints($input: CreatePoints!) {
+  createPoints(createInput: $input) {
+    id
+  }
+}

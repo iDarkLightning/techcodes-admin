@@ -17,9 +17,11 @@ import {
   NumberInputStepper,
   Stack,
 } from "@chakra-ui/react";
-import axios from "axios";
 import React, { useState } from "react";
-import { useSWRConfig } from "swr";
+import {
+  namedOperations,
+  useCreatePointsMutation,
+} from "../../../generated/graphql";
 
 interface CreatePointsProps {
   isOpen: boolean;
@@ -29,19 +31,7 @@ interface CreatePointsProps {
 const CreatePoints: React.FC<CreatePointsProps> = ({ isOpen, onClose }) => {
   const [name, setName] = useState("");
   const [value, setValue] = useState(0);
-  const { mutate } = useSWRConfig();
-
-  const submit = async () => {
-    const res = await axios.post("/api/points", {
-      name,
-      value,
-    });
-
-    if (res.data) {
-      mutate("/api/points");
-      onClose();
-    }
-  };
+  const [create] = useCreatePointsMutation();
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -76,7 +66,14 @@ const CreatePoints: React.FC<CreatePointsProps> = ({ isOpen, onClose }) => {
             bgColor="secondary"
             borderRadius="0"
             isDisabled={name === "" || value === 0}
-            onClick={submit}
+            onClick={async () => {
+              await create({
+                variables: { input: { name, value } },
+                refetchQueries: [namedOperations.Query.Points],
+              });
+
+              onClose();
+            }}
           >
             Create
           </Button>
